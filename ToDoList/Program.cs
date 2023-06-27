@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using ToDoList.DataAccess;
 using ToDoList.Services;
 
@@ -33,6 +35,7 @@ namespace ToDoList
 
 
             app.MapControllers();
+            app.MapGet("api/tasks", () => Results.Ok(app.Services.GetService<ITasksService>()!.GetTasks()));
 
             app.Run();
         }
