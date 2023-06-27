@@ -15,12 +15,6 @@ namespace ToDoList.Controllers
             _tasksService = tasksService;
         }
 
-        [HttpGet]
-        public ActionResult GetTasks()
-        {          
-            return Ok(_tasksService.GetTasks());
-        }
-
         [HttpGet("{id}")]
         public ActionResult GetTask([FromRoute] Guid id)
         {
