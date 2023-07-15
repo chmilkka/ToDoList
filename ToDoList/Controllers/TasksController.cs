@@ -16,6 +16,7 @@ namespace ToDoList.Controllers
         }
 
         [HttpGet]
+        [LogFilter]
         public ActionResult GetTasks()
         {          
             return Ok(_tasksService.GetTasks());
