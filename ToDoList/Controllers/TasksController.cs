@@ -15,7 +15,7 @@ namespace ToDoList.Controllers
             _tasksService = tasksService;
         }
 
-        [HttpGet]
+        [HttpGet]      
         public ActionResult GetTasks()
         {          
             return Ok(_tasksService.GetTasks());
