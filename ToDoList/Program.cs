@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoList.DataAccess;
 using ToDoList.Services;
+using Serilog;
 
 namespace ToDoList
 {
@@ -8,7 +9,12 @@ namespace ToDoList
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Host.UseSerilog();
 
             // Add services to the container.
             string connection = builder.Configuration.GetConnectionString("DefaultConnection");
