@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using ToDoList.Models;
 using ToDoList.Services;
 
 namespace ToDoList.Controllers
@@ -15,7 +16,7 @@ namespace ToDoList.Controllers
             _tasksService = tasksService;
         }
 
-        [HttpGet]
+        [HttpGet]      
         public ActionResult GetTasks()
         {          
             return Ok(_tasksService.GetTasks());
