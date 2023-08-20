@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using ToDoList.Models;
@@ -34,7 +35,9 @@ namespace ToDoList.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
+        [Authorize]
         public ActionResult CreateTask([FromQuery] string name, string content)
         {
             _tasksService.CreateTask(name, content);
