@@ -1,4 +1,6 @@
-﻿namespace ToDoList.DataAccess
+﻿using ToDoList.Models;
+
+namespace ToDoList.DataAccess
 {
     public interface ITaskStorage
     {
