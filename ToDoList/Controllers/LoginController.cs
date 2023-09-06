@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using ToDoList.Models;
 
 namespace ToDoList.Controllers
@@ -25,24 +26,33 @@ namespace ToDoList.Controllers
         [HttpPost]
         public string GenerateToken([FromBody] LoginModel request)
         {
-           
-            var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
-           
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, request.Login),
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                Issuer = myIssuer,
-                Audience = myAudience,
-                SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature)
-            };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var regex = "^[a-z0-9-]+$";
+            var isMatch = Regex.IsMatch(request.Login, regex);
+            if (isMatch)
+            {
+                var mySecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim(ClaimTypes.NameIdentifier, request.Login),
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    Issuer = myIssuer,
+                    Audience = myAudience,
+                    SigningCredentials = new SigningCredentials(mySecurityKey, SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            else
+            {
+                throw new Exception("Your username contains capital letters or special characters ");
+            }
         }
 
         [HttpGet]
