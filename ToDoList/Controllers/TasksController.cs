@@ -37,10 +37,9 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        public ActionResult CreateTask([FromQuery] string name, string content)
+        public ActionResult CreateTask([FromBody] CreateModelRequest request)
         {
-            _tasksService.CreateTask(name, content);
+            _tasksService.CreateTask(request);
             return Ok();
         }
         [HttpPut]

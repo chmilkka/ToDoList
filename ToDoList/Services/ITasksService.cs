@@ -6,7 +6,7 @@ namespace ToDoList.Services
     {
         IEnumerable<ToDoTask> GetTasks();
         ToDoTask GetTask(Guid taskId);
-        void CreateTask(string name, string content);
+        void CreateTask(CreateModelRequest request);
         void UpdateTask(ToDoTask updateTask);
         void DeleteTask(Guid taskId);
     }

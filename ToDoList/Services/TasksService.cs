@@ -11,14 +11,13 @@ namespace ToDoList.Services
         {
             _taskStorage = taskStorage;
         }
-        public void CreateTask(string name, string content)
+        public void CreateTask(CreateModelRequest request)
         {
             var task = new ToDoTask
             {
                 Id = Guid.NewGuid(),
-                Name = name,
-                Content = content,
-                IsCompleted = false
+                Name = request.Name,
+                Content = request.Content
             };
            _taskStorage.CreateTask(task);
         }
