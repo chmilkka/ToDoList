@@ -55,7 +55,7 @@ namespace ToDoList.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult DeleteTask(Guid id)
         {
             try

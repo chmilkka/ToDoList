@@ -24,6 +24,7 @@ namespace ToDoList.DataAccess
                 ?? throw new Exception($"Task with {taskId} ID was not found. ");
 
             DbContext.Remove(task);
+            DbContext.SaveChanges();
         }
 
         public ToDoTask GetTask(Guid taskId)
