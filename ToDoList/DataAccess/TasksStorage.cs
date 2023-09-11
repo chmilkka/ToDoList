@@ -1,35 +1,42 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Threading.Tasks;
+using ToDoList.Models;
 
 namespace ToDoList.DataAccess
 {
     public class TasksStorage : ITaskStorage
     {
-
-        private static List<ToDoTask> Tasks = new List<ToDoTask>();
+        public ApplicationContext DbContext { get; set; }
+        public TasksStorage(ApplicationContext dbContext)
+        {
+            DbContext = dbContext;
+        }
 
         public void CreateTask(ToDoTask task)
         {
-            Tasks.Add(task);
+            DbContext.Add(task);
+            DbContext.SaveChanges();
         }
-
+         
         public void DeleteTask(Guid taskId)
         {
-            var task = Tasks.FirstOrDefault(x => x.Id == taskId)
-               ?? throw new Exception($"Task with {taskId} ID was not found. ");
+            var task = DbContext.Tasks.FirstOrDefault(x => x.Id == taskId) 
+                ?? throw new Exception($"Task with {taskId} ID was not found. ");
 
-            Tasks.Remove(task);
+            DbContext.Remove(task);
+            DbContext.SaveChanges();
         }
 
         public ToDoTask GetTask(Guid taskId)
         {
-            var task = Tasks.FirstOrDefault(x => x.Id == taskId)
+            var task = DbContext.Tasks.FirstOrDefault(x => x.Id == taskId)
                 ?? throw new Exception($"Task with {taskId} ID was not found. ");
             return task;
         }
 
         public IEnumerable<ToDoTask> GetTasks()
         {
-            return Tasks;
+            return DbContext.Tasks;
         }
 
         public void UpdateTask(ToDoTask updateTask)

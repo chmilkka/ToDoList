@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using ToDoList.Models;
 using ToDoList.Services;
 
 namespace ToDoList.Controllers
@@ -15,7 +17,7 @@ namespace ToDoList.Controllers
             _tasksService = tasksService;
         }
 
-        [HttpGet]
+        [HttpGet]      
         public ActionResult GetTasks()
         {          
             return Ok(_tasksService.GetTasks());
@@ -33,10 +35,11 @@ namespace ToDoList.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
-        public ActionResult CreateTask([FromQuery] string name, string content)
+        public ActionResult CreateTask([FromBody] CreateModelRequest request)
         {
-            _tasksService.CreateTask(name, content);
+            _tasksService.CreateTask(request);
             return Ok();
         }
         [HttpPut]
@@ -52,7 +55,7 @@ namespace ToDoList.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult DeleteTask(Guid id)
         {
             try
